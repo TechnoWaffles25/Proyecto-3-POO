@@ -458,7 +458,6 @@ public class VentanaJugar extends javax.swing.JFrame {
                         } else {
                             timer.cancel();
                         }
-                        
                     }
                 }
             }, 0, 1000);
@@ -597,7 +596,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(204, 204, 204));
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 3, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel1.setText("DIficultad:");
+        jLabel1.setText("Dificultad:");
 
         boardPanel.setBackground(new java.awt.Color(102, 102, 102));
 
@@ -2409,6 +2408,7 @@ if (btnBorrarCasilla.isSelected()){
             victorySound.playSound("win.wav");
             System.out.println("Reproduciendo win.wav");
         }
+        // Logica para ver si el juego clasifica en algun podio
         if (!"No Usar".equals(reloj)){
             switch (reloj){
                 case "Cronometro":
