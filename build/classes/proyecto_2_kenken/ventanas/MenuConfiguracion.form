@@ -121,7 +121,7 @@
                               </Group>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="comboDificultad" max="32767" attributes="0"/>
-                                  <Component id="comboLado1" max="32767" attributes="0"/>
+                                  <Component id="comboTablero" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace pref="76" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -152,7 +152,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="comboLado1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboTablero" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   </Group>
@@ -231,7 +231,7 @@
                 <Property name="text" type="java.lang.String" value="Sonido al terminar:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="comboLado1">
+            <Component class="javax.swing.JComboBox" name="comboTablero">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="66" red="66" type="rgb"/>
@@ -255,7 +255,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboLado1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboTableroActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

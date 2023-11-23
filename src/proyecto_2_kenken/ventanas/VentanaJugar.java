@@ -18,6 +18,9 @@ import javax.swing.SwingUtilities;
 import proyecto_2_kenken.*;
 import proyecto_2_kenken.classes.*;
 import java.awt.Desktop;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.Icon;
@@ -37,6 +40,7 @@ public class VentanaJugar extends javax.swing.JFrame {
     
     public String jugador;
     public String dificultad;
+    public int sizeTablero;
     public Partida partidaActual;
     public boolean posicion;
     public boolean sonido;
@@ -49,12 +53,14 @@ public class VentanaJugar extends javax.swing.JFrame {
     public boolean rstFlag = false;
     public int indiceActual;
     
+    public List<List<JButton>> gridButtons;
     /**
      * Creates new form VentanaJugar
      */
     public VentanaJugar() {
         initComponents();
         
+        boardPanel.setVisible(false);
         btnIniciar.setEnabled(false);
         btnTerminar.setEnabled(false);
         btnOtraPartida.setEnabled(false);
@@ -71,6 +77,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         System.out.println("\nDificultad seleccionada: " + dificultad);
         lblDificultad.setText(dificultad);
         
+        sizeTablero = readconfig.getSizeTablero();
         sonido = readconfig.getSonido();
         System.out.println("Sonido al terminar juego: " + sonido);
         
@@ -117,13 +124,38 @@ public class VentanaJugar extends javax.swing.JFrame {
         btnPodio.setOpaque(true);
         btnPodio.setBorderPainted(false);
         
-        //Icon i = new ImageIcon("borrador.png");
-        //btnBorrarCasilla.setIcon(i);
+        panel.setLayout(new GridLayout(sizeTablero, sizeTablero));
+        updateGrid();
     }
     /**
      * carga un tablero con una partida
      * @param dificultad dificultad de juego
      */
+    private void updateGrid() {
+        panel.removeAll(); // Eliminar botones existentes
+        gridButtons = new ArrayList<>(); // Inicializar la lista de listas
+
+        for (int row = 0; row < sizeTablero; row++) {
+            List<JButton> buttonRow = new ArrayList<>(); // Lista para la fila actual
+            for (int col = 0; col < sizeTablero; col++) {
+                JButton button = new JButton(String.valueOf(row * sizeTablero + col + 1));
+                button.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        // Acción a realizar cuando se hace clic en el botón
+                        System.out.println("Botón presionado: " + button.getText());
+                    }
+                });
+                buttonRow.add(button); // Añadir el botón a la fila
+                panel.add(button);
+            }
+            gridButtons.add(buttonRow); // Añadir la fila a la lista de listas
+        }
+
+        panel.revalidate();
+        panel.repaint();
+    }
+
     public void cargarTablero(String dificultad){
             // Creamos las celdas
             sublstBotones.add(btn11);
@@ -588,6 +620,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         btnPodio = new javax.swing.JButton();
         lblJugador = new javax.swing.JLabel();
         txtJugador = new javax.swing.JTextField();
+        panel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1278,6 +1311,17 @@ public class VentanaJugar extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 480, Short.MAX_VALUE)
+        );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 395, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1309,13 +1353,14 @@ public class VentanaJugar extends javax.swing.JFrame {
                                 .addComponent(btnsDer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(24, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(lblDificultad)
                                 .addContainerGap())))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(panelBts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelBts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -1340,7 +1385,9 @@ public class VentanaJugar extends javax.swing.JFrame {
                         .addComponent(btnsIzq, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelBts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -2544,6 +2591,7 @@ if (btnBorrarCasilla.isSelected()){
     private javax.swing.JLabel lblJugador;
     private javax.swing.JLabel lblReloj;
     private javax.swing.JLabel lblTiempo;
+    private javax.swing.JPanel panel;
     private javax.swing.JPanel panelBts;
     private javax.swing.JTextField txtJugador;
     // End of variables declaration//GEN-END:variables

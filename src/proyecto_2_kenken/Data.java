@@ -13,7 +13,7 @@ public class Data implements Serializable{
     private final boolean posicion;
     private final boolean sonido;
     private final Duration duration;
-    private final String sizeTablero;
+    private final int sizeTablero;
     /**
      * constructor
      * @param pDificultad dificultad de juego
@@ -23,7 +23,7 @@ public class Data implements Serializable{
      * @param pDuration duracion de tiempo
      * @param pSizeTablero tamanno del tablero
      */
-    public Data(String pDificultad, String pReloj, boolean pPosicion, boolean pSonido, Duration pDuration, String pSizeTablero){
+    public Data(String pDificultad, String pReloj, boolean pPosicion, boolean pSonido, Duration pDuration, int pSizeTablero){
         dificultad = pDificultad;
         reloj = pReloj;
         posicion = pPosicion;
@@ -47,7 +47,7 @@ public class Data implements Serializable{
     public Duration getDuration(){
         return duration;
     }
-    public String getSizeTablero(){
+    public int getSizeTablero(){
         return sizeTablero;
     }
     

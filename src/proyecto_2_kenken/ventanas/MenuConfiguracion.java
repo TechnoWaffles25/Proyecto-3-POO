@@ -40,7 +40,7 @@ public class MenuConfiguracion extends javax.swing.JFrame {
     public String reloj;
     public boolean lado;
     public boolean sonido;
-    public String sizeTablero;
+    public int sizeTablero;
     
     public Duration tiempoJuego;
     public Duration tiempoTranscurrido;
@@ -88,7 +88,7 @@ public class MenuConfiguracion extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        comboLado1 = new javax.swing.JComboBox<>();
+        comboTablero = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         panelListbox = new javax.swing.JPanel();
         panelReloj = new javax.swing.JPanel();
@@ -141,13 +141,13 @@ public class MenuConfiguracion extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(204, 204, 204));
         jLabel5.setText("Sonido al terminar:");
 
-        comboLado1.setBackground(new java.awt.Color(102, 102, 102));
-        comboLado1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        comboLado1.setForeground(new java.awt.Color(204, 204, 204));
-        comboLado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3x3", "4x4", "5x5", "6x6", "7x7", "8x8", "9x9" }));
-        comboLado1.addActionListener(new java.awt.event.ActionListener() {
+        comboTablero.setBackground(new java.awt.Color(102, 102, 102));
+        comboTablero.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        comboTablero.setForeground(new java.awt.Color(204, 204, 204));
+        comboTablero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "3x3", "4x4", "5x5", "6x6", "7x7", "8x8", "9x9" }));
+        comboTablero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboLado1ActionPerformed(evt);
+                comboTableroActionPerformed(evt);
             }
         });
 
@@ -172,7 +172,7 @@ public class MenuConfiguracion extends javax.swing.JFrame {
                                 .addGap(89, 89, 89)))
                         .addGroup(panelLblsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(comboDificultad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboLado1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(comboTablero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                         .addGroup(panelLblsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,7 +195,7 @@ public class MenuConfiguracion extends javax.swing.JFrame {
                 .addGroup(panelLblsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel11)
-                    .addComponent(comboLado1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboTablero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
 
@@ -620,6 +620,9 @@ public class MenuConfiguracion extends javax.swing.JFrame {
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         dificultad = (String) comboDificultad.getSelectedItem();
         reloj = (String) comboReloj.getSelectedItem();
+        String strSizeTablero = (String) comboTablero.getSelectedItem();
+        String[] intSizeTablero = strSizeTablero.split("x");
+        sizeTablero = Integer.parseInt(intSizeTablero[0]);
         if (comboLado.getSelectedItem() == "Derecha"){
             lado = true;
         } else {
@@ -675,9 +678,9 @@ public class MenuConfiguracion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_comboDificultadActionPerformed
 
-    private void comboLado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboLado1ActionPerformed
+    private void comboTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTableroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_comboLado1ActionPerformed
+    }//GEN-LAST:event_comboTableroActionPerformed
 
     /**
      * mcrea una nueva ventana de configuración 
@@ -723,10 +726,10 @@ public class MenuConfiguracion extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboDificultad;
     private javax.swing.JComboBox<String> comboHoras;
     private javax.swing.JComboBox<String> comboLado;
-    private javax.swing.JComboBox<String> comboLado1;
     private javax.swing.JComboBox<String> comboMinutos;
     private javax.swing.JComboBox<String> comboReloj;
     private javax.swing.JComboBox<String> comboSegundos;
+    private javax.swing.JComboBox<String> comboTablero;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;

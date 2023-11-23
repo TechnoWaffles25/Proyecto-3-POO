@@ -48,7 +48,7 @@ public class ReadConfig {
     public Duration getDuration(){
         return config.getDuration();
     }
-    public String getSizeTablero(){
+    public int getSizeTablero(){
         return config.getSizeTablero();
     }
 }
