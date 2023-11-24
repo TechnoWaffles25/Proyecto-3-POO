@@ -9,72 +9,95 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import proyecto_2_kenken.classes.*;
+
 /**
- * clase que se encarga de leer el archivo xml con partidas y hace una lista de partidas correspondiente a la dificultad
- * @author Alejandro Montero, Fabricio Monge 
+ * Clase que se encarga de leer el archivo XML con partidas y hace una lista de partidas
+ * correspondiente a la dificultad y tamaño del tablero.
  */
 public class ReadPartidaXML {
     /**
-     *  crea una lista de objetos Partida, con las celdas y los valores correspondientes
-     * @param fileName nombre del archivo de partidas
-     * @param difficulty dificultad escogida
-     * @return  no retorna nada
+     * Crea una lista de objetos Partida, con las celdas y los valores correspondientes.
+     * @param fileName nombre del archivo de partidas.
+     * @param difficulty dificultad escogida.
+     * @param tableroSize tamaño del tablero.
+     * @return lista de partidas.
      */
-    public List<Partida> parseKenKenPartidas(String fileName, String difficulty) {
+    public List<Partida> parseKenKenPartidas(String fileName, String difficulty, int tableroSize) {
         try {
             File xmlFile = new File(fileName);
-
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(xmlFile);
-
+            
             List<Partida> listaPartidas = new ArrayList<>();
-            // Root element
             Element root = doc.getDocumentElement();
+            String nTableroSize = null;
+            switch (tableroSize){
+                case 3:
+                    nTableroSize = "tres";
+                    break;
+                case 4:
+                    nTableroSize = "cuatro";
+                    break;
+                case 5:
+                    nTableroSize = "cinco";
+                    break;
+                case 6:
+                    nTableroSize = "seis";
+                    break;
+                case 7:
+                    nTableroSize = "siete";
+                    break;
+                case 8:
+                    nTableroSize = "ocho";
+                    break;
+                case 9:
+                    nTableroSize = "nueve";
+                    break;
+            }
+            // Buscar el elemento que corresponde al tamaño del tablero
+            NodeList sizeList = root.getElementsByTagName(nTableroSize);
+            if (sizeList.getLength() > 0) {
+                Element sizeElement = (Element) sizeList.item(0);
 
-            // Find the specified difficulty element
-            NodeList difficultyList = root.getElementsByTagName(difficulty);
-            if (difficultyList.getLength() > 0) {
-                Element difficultyElement = (Element) difficultyList.item(0);
+                // Buscar la dificultad dentro del elemento del tamaño del tablero
+                NodeList difficultyList = sizeElement.getElementsByTagName(difficulty);
+                if (difficultyList.getLength() > 0) {
+                    Element difficultyElement = (Element) difficultyList.item(0);
 
-                // Find all partida elements within the specified difficulty
-                NodeList partidaList = difficultyElement.getElementsByTagName("partida");
+                    // Buscar todas las partidas dentro de la dificultad
+                    NodeList partidaList = difficultyElement.getElementsByTagName("partida");
+                    for (int i = 0; i < partidaList.getLength(); i++) {
+                        Element partidaElement = (Element) partidaList.item(i);
 
-                for (int i = 0; i < partidaList.getLength(); i++) {
-                    Element partidaElement = (Element) partidaList.item(i);
+                        List<Cell> cells = new ArrayList<>();
+                        NodeList cellList = partidaElement.getElementsByTagName("cell");
+                        for (int j = 0; j < cellList.getLength(); j++) {
+                            Element cellElement = (Element) cellList.item(j);
+                            String cellData = cellElement.getTextContent();
+                            String[] cellParts = cellData.split(",");
 
-                    // Create a list to store cells
-                    List<Cell> cells = new ArrayList<>();
+                            if (cellParts.length == 5) {
+                                int jailTargetValue = Integer.parseInt(cellParts[0]);
+                                char operation = cellParts[1].charAt(0);
+                                int row = Integer.parseInt(cellParts[2]);
+                                int col = Integer.parseInt(cellParts[3]);
+                                int targetValue = Integer.parseInt(cellParts[4]);
 
-                    // Find all cell elements within the partida
-                    NodeList cellList = partidaElement.getElementsByTagName("cell");
-                    for (int j = 0; j < cellList.getLength(); j++) {
-                        Element cellElement = (Element) cellList.item(j);
-                        String cellData = cellElement.getTextContent();
-                        String[] cellParts = cellData.split(",");
-
-                        if (cellParts.length == 5) {
-                            int jailTargetValue = Integer.parseInt(cellParts[0]);
-                            char operation = cellParts[1].charAt(0);
-                            int row = Integer.parseInt(cellParts[2]);
-                            int col = Integer.parseInt(cellParts[3]);
-                            int targetValue = Integer.parseInt(cellParts[4]);
-
-                            // Create a Cell object and add it to the list
-                            Cell cell = new Cell(jailTargetValue, operation, row, col, targetValue);
-                            cells.add(cell);
+                                Cell cell = new Cell(jailTargetValue, operation, row, col, targetValue);
+                                cells.add(cell);
+                            }
                         }
-                    }
 
-                    // Create a Partida object with the list of cells
-                    Partida partida = new Partida(cells);
-                    listaPartidas.add(partida);
+                        Partida partida = new Partida(cells);
+                        listaPartidas.add(partida);
+                    }
                 }
             }
             return listaPartidas;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null; // Return null in case of an error or if no partida is found
+        return null; // Retornar null en caso de error o si no se encuentra ninguna partida
     }
 }

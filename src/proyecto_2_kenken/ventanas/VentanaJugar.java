@@ -36,10 +36,11 @@ import javax.swing.JToggleButton;
 public class VentanaJugar extends javax.swing.JFrame {
     public Lists listaJugadas = new Lists();
     public Lists jugadasDeshechas = new Lists();
-    public List<List<JButton>> lstBotones = new ArrayList<>();
-    public List<JButton> sublstBotones = new ArrayList<>();
+    
     public List<Integer> indicesVisitados = new ArrayList<>();
     public List<Cell> lstCells = new ArrayList<>();
+    public List<List<JButton>> gridButtons;
+    public List<Partida> listPartidas;
     public int valornuevo;
     
     public String jugador;
@@ -57,7 +58,7 @@ public class VentanaJugar extends javax.swing.JFrame {
     public boolean rstFlag = false;
     public int indiceActual;
     
-    public List<List<JButton>> gridButtons;
+    
     /**
      * Creates new form VentanaJugar
      */
@@ -137,7 +138,7 @@ public class VentanaJugar extends javax.swing.JFrame {
      * carga un tablero con una partida
      * @param dificultad dificultad de juego
      */
-    private void updateNumPad(boolean lado){
+    public void updateNumPad(boolean lado){
         btnGroupNumPad = new ButtonGroup();
         Dimension buttonSize = new Dimension(60, 65);
         
@@ -168,7 +169,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         this.repaint();
     }
     
-    private void updateGrid() {
+    public void updateGrid() {
         panel.removeAll(); // Eliminar botones existentes
         gridButtons = new ArrayList<>(); // Inicializar la lista de listas
         Dimension buttonSize = new Dimension(60, 65);
@@ -195,65 +196,15 @@ public class VentanaJugar extends javax.swing.JFrame {
         panel.repaint();
     }
 
-    /*public void cargarTablero(String dificultad){
-            // Creamos las celdas
-            sublstBotones.add(btn11);
-            sublstBotones.add(btn12);
-            sublstBotones.add(btn13);
-            sublstBotones.add(btn14);
-            sublstBotones.add(btn15);
-            sublstBotones.add(btn16);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn21);
-            sublstBotones.add(btn22);
-            sublstBotones.add(btn23);
-            sublstBotones.add(btn24);
-            sublstBotones.add(btn25);
-            sublstBotones.add(btn26);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn31);
-            sublstBotones.add(btn32);
-            sublstBotones.add(btn33);
-            sublstBotones.add(btn34);
-            sublstBotones.add(btn35);
-            sublstBotones.add(btn36);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn41);
-            sublstBotones.add(btn42);
-            sublstBotones.add(btn43);
-            sublstBotones.add(btn44);
-            sublstBotones.add(btn45);
-            sublstBotones.add(btn46);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn51);
-            sublstBotones.add(btn52);
-            sublstBotones.add(btn53);
-            sublstBotones.add(btn54);
-            sublstBotones.add(btn55);
-            sublstBotones.add(btn56);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn61);
-            sublstBotones.add(btn62);
-            sublstBotones.add(btn63);
-            sublstBotones.add(btn64);
-            sublstBotones.add(btn65);
-            sublstBotones.add(btn66);
-            lstBotones.add(sublstBotones);
-
-            System.out.println(lstBotones);
-            
+    public void cargarTablero(){
             ReadPartidaXML reader = new ReadPartidaXML();
-            List<Partida> listaPartidas = reader.parseKenKenPartidas("kenken_partidas3.xml", dificultad);
+            List<Partida> listaPartidas = reader.parseKenKenPartidas("kenken_partidas3.xml", dificultad, sizeTablero);
+            
+            if (listaPartidas == null || listaPartidas.isEmpty()) {
+                System.out.println("No hay partidas disponibles.");
+                return; // Salir del método si no hay partidas
+            }
+            
             lstCells = null;
             Random random = new Random();
             
@@ -280,19 +231,20 @@ public class VentanaJugar extends javax.swing.JFrame {
                 i++;
             }
             System.out.println("////////////////////////////////////////////");
-
+            System.out.println("Tamaño de gridButtons: " + gridButtons.size());
             for (Cell cell : lstCells){
                 int jtv = cell.getJailTargetValue();
                 char operation = cell.getOperation();
                 int row = cell.getRow();
                 int column = cell.getColumn();
                 String txt = Integer.toString(jtv) + operation;
-
+                System.out.println("Accediendo a gridButtons en fila " + row + " y columna " + column);
+                
                 switch(operation){
                     case '+':
                         System.out.println("Caso +");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnP = lstBotones.get(row).get(column);
+                            JButton btnP = gridButtons.get(row).get(column);
                             btnP.setBackground(Color.RED);
                             btnP.setText(txt);
                             btnP.setOpaque(true);
@@ -301,7 +253,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                     case '-':
                         System.out.println("Caso -");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnM = lstBotones.get(row).get(column);
+                            JButton btnM = gridButtons.get(row).get(column);
                             btnM.setBackground(Color.BLUE);
                             btnM.setText(txt);
                             btnM.setOpaque(true);
@@ -310,7 +262,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                     case 'x':
                         System.out.println("Caso x");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnX = lstBotones.get(row).get(column);
+                            JButton btnX = gridButtons.get(row).get(column);
                             btnX.setBackground(Color.ORANGE);
                             btnX.setText(txt);
                             btnX.setOpaque(true);
@@ -319,7 +271,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                     case '/':
                         System.out.println("Caso /");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnD = lstBotones.get(row).get(column);
+                            JButton btnD = gridButtons.get(row).get(column);
                             btnD.setBackground(Color.GREEN);
                             btnD.setText(txt);
                             btnD.setOpaque(true);
@@ -328,7 +280,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                     case 'n':
                         System.out.println("Caso n");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnN = lstBotones.get(row).get(column);
+                            JButton btnN = gridButtons.get(row).get(column);
                             btnN.setBackground(Color.WHITE);
                             btnN.setText(txt);
                             btnN.setOpaque(true);
@@ -336,7 +288,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                         break;
                 } 
             } 
-        }/*
+        }
     /**
      * resetea el tablero
      * @param dificultad dificultad de juego
@@ -881,143 +833,13 @@ public class VentanaJugar extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 465, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-/**
- * cambia el valor que se va a asignar en la casilla
- * @param evt click
- *//**
- * cambia el valor que se va a asignar en la casilla
- * @param evt click
- *//**
- * cambia el valor que se va a asignar en la casilla
- * @param evt click
- *//**
- * cambia el valor que se va a asignar en la casilla
- * @param evt click
- */
-/**
- * cambia el valor que se va a asignar en la casilla
- * @param evt click
- *//**
- * cambia el valor que se va a asignar en la casilla
- * @param evt click
- *//**
- * cambia el valor que se va a asignar en la casilla
- * @param evt click
- *//**
- * cambia el valor que se va a asignar en la casilla
- * @param evt click
- */
-/**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- */
-/**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * logica utilizada para interactuar con los botones dependiendo del caso 
- * @param evt  click
- *//**
- * devuleve la casilla ultima casilla con la que se interactuó a su estado anterior
+/** devuleve la casilla ultima casilla con la que se interactuó a su estado anterior
  * @param evt click en el botón
  */
     private void btnDeshacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerActionPerformed
@@ -1031,7 +853,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         int jCol = jugada.getCol();
         String jValAnt = jugada.getValorAnterior();
         
-        JButton btn = lstBotones.get(jRow).get(jCol);
+        JButton btn = gridButtons.get(jRow).get(jCol);
         String textPrev = btn.getText();
         
         jugadasDeshechas.agregarJugada(jRow, jCol, textPrev);
@@ -1059,7 +881,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         System.out.println("Col: " + jCol);
         System.out.println("ValAnt: " + jValAnt);
         
-        JButton btn = lstBotones.get(jRow).get(jCol);
+        JButton btn = gridButtons.get(jRow).get(jCol);
         String txt = btn.getText();
         
         listaJugadas.agregarJugada(jRow, jCol, txt);
@@ -1083,8 +905,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         btnValidar.setEnabled(true);
         btnReiniciar.setEnabled(true);
         
-        lstBotones.clear();
-        sublstBotones.clear();
+        gridButtons.clear();
         listaJugadas.clearList();
         jugadasDeshechas.clearList();
         
@@ -1096,7 +917,7 @@ public class VentanaJugar extends javax.swing.JFrame {
             btnsDer.setVisible(false);
         }
         updateNumPad(posicion);
-        //cargarTablero(dificultad);
+        cargarTablero();
         
         startReloj();
     }//GEN-LAST:event_btnIniciarActionPerformed
@@ -1126,8 +947,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         int confirm = JOptionPane.showConfirmDialog(rootPane, "Desea cargar otro tablero?");
         if (confirm == JOptionPane.YES_OPTION){
             System.out.println("Cargando otro tablero...");
-            lstBotones.clear();
-            sublstBotones.clear();
+            gridButtons.clear();
             listaJugadas.clearList();
             jugadasDeshechas.clearList();
             
@@ -1151,8 +971,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         int confirm = JOptionPane.showConfirmDialog(rootPane, "Desea recargar este tablero?");
         if (confirm == JOptionPane.YES_OPTION){
             System.out.println("Recargando el tablero...");
-            lstBotones.clear();
-            sublstBotones.clear();
+            gridButtons.clear();
             listaJugadas.clearList();
             jugadasDeshechas.clearList();
             
@@ -1178,7 +997,7 @@ public class VentanaJugar extends javax.swing.JFrame {
             int column = cell.getColumn();
             int targetValue = cell.getTargetValue();
             
-            JButton btnP = lstBotones.get(row).get(column);
+            JButton btnP = gridButtons.get(row).get(column);
             try{
                 int currentValue = Integer.parseInt(btnP.getText());
                 if (currentValue != targetValue){

@@ -630,7 +630,7 @@ public class MenuConfiguracion extends javax.swing.JFrame {
         }
         sonido = (boolean) toggleSonido.isSelected();
         
-        Data config = new Data(dificultad, reloj, lado, sonido, tiempoJuego, sizeTablero);
+        Data config = new Data(dificultad.toLowerCase(), reloj, lado, sonido, tiempoJuego, sizeTablero);
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("config.dat"))) {
                 oos.writeObject(config); // Escribimos la configuracion cada vez q salimos
                 System.out.println("Dificultad: " + dificultad + "\nReloj: " + reloj + "\nLado Panel: " + sonido + "\nSonido: " + sonido + "\nTiempo Juego: " + tiempoJuego + "\nSize Tablero: " + sizeTablero);
