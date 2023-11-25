@@ -39,7 +39,7 @@ public class VentanaJugar extends javax.swing.JFrame {
     
     public List<Integer> indicesVisitados = new ArrayList<>();
     public List<Cell> lstCells = new ArrayList<>();
-    public List<List<JButton>> gridButtons;
+    public List<List<JButton>> gridButtons = new ArrayList<List<JButton>>();
     public List<Partida> listPartidas;
     public int valornuevo;
     
@@ -132,7 +132,6 @@ public class VentanaJugar extends javax.swing.JFrame {
         btnPodio.setBorderPainted(false);
         
         panel.setLayout(new GridLayout(sizeTablero, sizeTablero));
-        updateGrid();
     }
     /**
      * carga un tablero con una partida
@@ -169,32 +168,32 @@ public class VentanaJugar extends javax.swing.JFrame {
         this.repaint();
     }
     
-    public void updateGrid() {
-        panel.removeAll(); // Eliminar botones existentes
-        gridButtons = new ArrayList<>(); // Inicializar la lista de listas
-        Dimension buttonSize = new Dimension(60, 65);
-        
-        for (int row = 0; row < sizeTablero; row++) {
-            List<JButton> buttonRow = new ArrayList<>(); // Lista para la fila actual
-            for (int col = 0; col < sizeTablero; col++) {
-                JButton button = new JButton(String.valueOf(row * sizeTablero + col + 1));
-                button.setPreferredSize(buttonSize);
-                button.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // Acción a realizar cuando se hace clic en el botón
-                        System.out.println("Botón presionado: " + button.getText());
-                    }
-                });
-                buttonRow.add(button); // Añadir el botón a la fila
-                panel.add(button);
-            }
-            gridButtons.add(buttonRow); // Añadir la fila a la lista de listas
-        }
+        public void updateGrid() {
+            panel.removeAll(); // Eliminar botones existentes
+            Dimension buttonSize = new Dimension(60, 65);
 
-        panel.revalidate();
-        panel.repaint();
-    }
+            for (int row = 0; row < sizeTablero; row++) {
+                List<JButton> buttonRow = new ArrayList<>(); // Lista para la fila actual
+                for (int col = 0; col < sizeTablero; col++) {
+                    JButton button = new JButton(String.valueOf(row * sizeTablero + col + 1));
+                    button.setPreferredSize(buttonSize);
+                    button.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            // Acción a realizar cuando se hace clic en el botón
+                            System.out.println("Botón presionado: " + button.getText());
+                        }
+                    });
+                    buttonRow.add(button); // Añadir el botón a la fila
+                    panel.add(button);
+                }
+                gridButtons.add(buttonRow); // Añadir la fila a la lista de listas
+            }
+            System.out.println("Tamaño grid buttons: " + gridButtons.size());
+            System.out.println(gridButtons);
+            panel.revalidate();
+            panel.repaint();
+        }
 
     public void cargarTablero(){
             ReadPartidaXML reader = new ReadPartidaXML();
@@ -268,8 +267,8 @@ public class VentanaJugar extends javax.swing.JFrame {
                             btnX.setOpaque(true);
                         });
                         break;
-                    case '/':
-                        System.out.println("Caso /");
+                    case '÷':
+                        System.out.println("Caso ÷");
                         SwingUtilities.invokeLater(() -> {
                             JButton btnD = gridButtons.get(row).get(column);
                             btnD.setBackground(Color.GREEN);
@@ -905,7 +904,9 @@ public class VentanaJugar extends javax.swing.JFrame {
         btnValidar.setEnabled(true);
         btnReiniciar.setEnabled(true);
         
-        gridButtons.clear();
+        if (gridButtons != null){
+            gridButtons.clear();
+        }
         listaJugadas.clearList();
         jugadasDeshechas.clearList();
         
@@ -916,6 +917,7 @@ public class VentanaJugar extends javax.swing.JFrame {
             btnsIzq.setVisible(true);
             btnsDer.setVisible(false);
         }
+        updateGrid();
         updateNumPad(posicion);
         cargarTablero();
         
