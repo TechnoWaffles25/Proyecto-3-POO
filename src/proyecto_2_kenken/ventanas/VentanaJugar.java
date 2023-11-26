@@ -29,6 +29,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
+import static proyecto_2_kenken.classes.PlayUtilities.*;
 /**
  *
  * @author amontero
@@ -148,6 +149,8 @@ public class VentanaJugar extends javax.swing.JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         // Acción a realizar cuando se hace clic en el botón
+                        int val=Integer.parseInt (numberButton.getText());
+                        valornuevo=val;
                         System.out.println("Botón presionado: " + numberButton.getText());
                     }
                 });
@@ -247,6 +250,14 @@ public class VentanaJugar extends javax.swing.JFrame {
                             btnP.setBackground(Color.RED);
                             btnP.setText(txt);
                             btnP.setOpaque(true);
+                            btnP.addActionListener(new ActionListener() {
+                             @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                    // Acción a realizar cuando se hace clic en el botón
+                                    boolean borrarcas=false;
+                                    if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                    escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
                     case '-':
@@ -256,6 +267,14 @@ public class VentanaJugar extends javax.swing.JFrame {
                             btnM.setBackground(Color.BLUE);
                             btnM.setText(txt);
                             btnM.setOpaque(true);
+                             btnM.addActionListener(new ActionListener() {
+                             @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                    // Acción a realizar cuando se hace clic en el botón
+                                    boolean borrarcas=false;
+                                    if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                    escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
                     case 'x':
@@ -265,6 +284,14 @@ public class VentanaJugar extends javax.swing.JFrame {
                             btnX.setBackground(Color.ORANGE);
                             btnX.setText(txt);
                             btnX.setOpaque(true);
+                             btnX.addActionListener(new ActionListener() {
+                             @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                    // Acción a realizar cuando se hace clic en el botón
+                                    boolean borrarcas=false;
+                                    if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                    escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
                     case '÷':
@@ -274,6 +301,14 @@ public class VentanaJugar extends javax.swing.JFrame {
                             btnD.setBackground(Color.GREEN);
                             btnD.setText(txt);
                             btnD.setOpaque(true);
+                             btnD.addActionListener(new ActionListener() {
+                             @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                    // Acción a realizar cuando se hace clic en el botón
+                                    boolean borrarcas=false;
+                                    if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                    escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
                     case 'n':
@@ -283,6 +318,14 @@ public class VentanaJugar extends javax.swing.JFrame {
                             btnN.setBackground(Color.WHITE);
                             btnN.setText(txt);
                             btnN.setOpaque(true);
+                            btnN.addActionListener(new ActionListener() {
+                             @Override
+                               public void actionPerformed(ActionEvent e) {
+                                   // Acción a realizar cuando se hace clic en el botón
+                                   boolean borrarcas=false;
+                                   if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                   escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
                 } 
@@ -293,65 +336,15 @@ public class VentanaJugar extends javax.swing.JFrame {
      * @param dificultad dificultad de juego
      * @param indiceActual partida actual
      */
-    /*public void resetTablero(String dificultad, int indiceActual){
-            // Creamos las celdas
-            sublstBotones.add(btn11);
-            sublstBotones.add(btn12);
-            sublstBotones.add(btn13);
-            sublstBotones.add(btn14);
-            sublstBotones.add(btn15);
-            sublstBotones.add(btn16);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn21);
-            sublstBotones.add(btn22);
-            sublstBotones.add(btn23);
-            sublstBotones.add(btn24);
-            sublstBotones.add(btn25);
-            sublstBotones.add(btn26);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn31);
-            sublstBotones.add(btn32);
-            sublstBotones.add(btn33);
-            sublstBotones.add(btn34);
-            sublstBotones.add(btn35);
-            sublstBotones.add(btn36);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn41);
-            sublstBotones.add(btn42);
-            sublstBotones.add(btn43);
-            sublstBotones.add(btn44);
-            sublstBotones.add(btn45);
-            sublstBotones.add(btn46);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn51);
-            sublstBotones.add(btn52);
-            sublstBotones.add(btn53);
-            sublstBotones.add(btn54);
-            sublstBotones.add(btn55);
-            sublstBotones.add(btn56);
-            lstBotones.add(sublstBotones);
-            sublstBotones = new ArrayList<>();
-
-            sublstBotones.add(btn61);
-            sublstBotones.add(btn62);
-            sublstBotones.add(btn63);
-            sublstBotones.add(btn64);
-            sublstBotones.add(btn65);
-            sublstBotones.add(btn66);
-            lstBotones.add(sublstBotones);
-
-            System.out.println(lstBotones);
-            
+    public void resetTablero(String dificultad,int sizeTablero, int indiceActual){
             ReadPartidaXML reader = new ReadPartidaXML();
-            List<Partida> listaPartidas = reader.parseKenKenPartidas("kenken_partidas3.xml", dificultad);
+            List<Partida> listaPartidas = reader.parseKenKenPartidas("kenken_partidas3.xml", dificultad, sizeTablero);
+            
+            if (listaPartidas == null || listaPartidas.isEmpty()) {
+                System.out.println("No hay partidas disponibles.");
+                return; // Salir del método si no hay partidas
+            }
+            lstCells = null;
             
             Partida partida = listaPartidas.get(indiceActual);
             lstCells = partida.getCells();
@@ -363,63 +356,104 @@ public class VentanaJugar extends javax.swing.JFrame {
                 i++;
             }
             System.out.println("////////////////////////////////////////////");
-
+            System.out.println("Tamaño de gridButtons: " + gridButtons.size());
             for (Cell cell : lstCells){
                 int jtv = cell.getJailTargetValue();
                 char operation = cell.getOperation();
                 int row = cell.getRow();
                 int column = cell.getColumn();
                 String txt = Integer.toString(jtv) + operation;
-
+                System.out.println("Accediendo a gridButtons en fila " + row + " y columna " + column);
+                
                 switch(operation){
                     case '+':
                         System.out.println("Caso +");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnP = lstBotones.get(row).get(column);
+                            JButton btnP = gridButtons.get(row).get(column);
                             btnP.setBackground(Color.RED);
                             btnP.setText(txt);
                             btnP.setOpaque(true);
+                            btnP.addActionListener(new ActionListener() {
+                             @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                    // Acción a realizar cuando se hace clic en el botón
+                                    boolean borrarcas=false;
+                                    if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                    escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
                     case '-':
                         System.out.println("Caso -");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnM = lstBotones.get(row).get(column);
+                            JButton btnM = gridButtons.get(row).get(column);
                             btnM.setBackground(Color.BLUE);
                             btnM.setText(txt);
                             btnM.setOpaque(true);
+                             btnM.addActionListener(new ActionListener() {
+                             @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                    // Acción a realizar cuando se hace clic en el botón
+                                    boolean borrarcas=false;
+                                    if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                    escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
                     case 'x':
                         System.out.println("Caso x");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnX = lstBotones.get(row).get(column);
+                            JButton btnX = gridButtons.get(row).get(column);
                             btnX.setBackground(Color.ORANGE);
                             btnX.setText(txt);
                             btnX.setOpaque(true);
+                             btnX.addActionListener(new ActionListener() {
+                             @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                    // Acción a realizar cuando se hace clic en el botón
+                                    boolean borrarcas=false;
+                                    if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                    escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
-                    case '/':
-                        System.out.println("Caso /");
+                    case '÷':
+                        System.out.println("Caso ÷");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnD = lstBotones.get(row).get(column);
+                            JButton btnD = gridButtons.get(row).get(column);
                             btnD.setBackground(Color.GREEN);
                             btnD.setText(txt);
                             btnD.setOpaque(true);
+                             btnD.addActionListener(new ActionListener() {
+                             @Override
+                                 public void actionPerformed(ActionEvent e) {
+                                    // Acción a realizar cuando se hace clic en el botón
+                                    boolean borrarcas=false;
+                                    if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                    escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
                     case 'n':
                         System.out.println("Caso n");
                         SwingUtilities.invokeLater(() -> {
-                            JButton btnN = lstBotones.get(row).get(column);
+                            JButton btnN = gridButtons.get(row).get(column);
                             btnN.setBackground(Color.WHITE);
                             btnN.setText(txt);
                             btnN.setOpaque(true);
+                            btnN.addActionListener(new ActionListener() {
+                             @Override
+                               public void actionPerformed(ActionEvent e) {
+                                   // Acción a realizar cuando se hace clic en el botón
+                                   boolean borrarcas=false;
+                                   if (btnBorrarCasilla.isSelected()){borrarcas=true;}
+                                   escribir(row,column,valornuevo, gridButtons, lstCells,borrarcas);}
+                            });
                         });
                         break;
                 } 
             } 
-        }*/
+        }
     /**
      * inicia el reloj de la partida
      */
@@ -672,7 +706,6 @@ public class VentanaJugar extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(btnBorrarCasilla);
         btnBorrarCasilla.setText("BORRAR CASILLA");
         btnBorrarCasilla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -842,25 +875,10 @@ public class VentanaJugar extends javax.swing.JFrame {
  * @param evt click en el botón
  */
     private void btnDeshacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeshacerActionPerformed
-        btnDeshacer.setOpaque(true);
+         btnDeshacer.setOpaque(true);
         btnDeshacer.setBorderPainted(false);
         //listaJugadas.verUltimaJugada();
-        
-        Nodo jugada = listaJugadas.popUltimaJugada();
-        if (jugada !=null){
-        int jRow = jugada.getRow();
-        int jCol = jugada.getCol();
-        String jValAnt = jugada.getValorAnterior();
-        
-        JButton btn = gridButtons.get(jRow).get(jCol);
-        String textPrev = btn.getText();
-        
-        jugadasDeshechas.agregarJugada(jRow, jCol, textPrev);
-        btn.setText(jValAnt);}
-        else{
-            JOptionPane.showMessageDialog(null, "No se puede deshacer ninguna jugada");
-            System.out.println("jugada = null, no se puede deshacer nada");
-        }
+        deshacer(gridButtons);
     }//GEN-LAST:event_btnDeshacerActionPerformed
 /**
  * verifica si hay partidas en la lista de jugadas deshechas y la vuelve a colocar en el tablero
@@ -869,26 +887,7 @@ public class VentanaJugar extends javax.swing.JFrame {
     private void btnRehacerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRehacerActionPerformed
         btnRehacer.setOpaque(true);
         btnRehacer.setBorderPainted(false);
-        
-        Nodo jugada = jugadasDeshechas.popUltimaJugada();
-        if (jugada != null){
-        int jRow = jugada.getRow();
-        int jCol = jugada.getCol();
-        String jValAnt = jugada.getValorAnterior();
-        
-        System.out.println("Row: " + jRow);
-        System.out.println("Col: " + jCol);
-        System.out.println("ValAnt: " + jValAnt);
-        
-        JButton btn = gridButtons.get(jRow).get(jCol);
-        String txt = btn.getText();
-        
-        listaJugadas.agregarJugada(jRow, jCol, txt);
-        btn.setText(jValAnt);}
-        else{
-            JOptionPane.showMessageDialog(null, "No se puede rehacer ninguna jugada");
-            System.out.println("jugada = null, no se puede rehacer nada");
-        }
+        rehacer(gridButtons);
     }//GEN-LAST:event_btnRehacerActionPerformed
 /**
  * carga una de las partidas, limpia las listas y muestra el tablero correspondiente
@@ -919,6 +918,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         }
         updateGrid();
         updateNumPad(posicion);
+        btnGroupNumPad.add(btnBorrarCasilla);
         cargarTablero();
         
         startReloj();
@@ -949,7 +949,6 @@ public class VentanaJugar extends javax.swing.JFrame {
         int confirm = JOptionPane.showConfirmDialog(rootPane, "Desea cargar otro tablero?");
         if (confirm == JOptionPane.YES_OPTION){
             System.out.println("Cargando otro tablero...");
-            gridButtons.clear();
             listaJugadas.clearList();
             jugadasDeshechas.clearList();
             
@@ -960,7 +959,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                 reloj = "Timer";
                 lblReloj.setText("Timer: ");
             }
-            //scargarTablero(dificultad);
+            cargarTablero();
             startReloj();
             
         }
@@ -973,7 +972,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         int confirm = JOptionPane.showConfirmDialog(rootPane, "Desea recargar este tablero?");
         if (confirm == JOptionPane.YES_OPTION){
             System.out.println("Recargando el tablero...");
-            gridButtons.clear();
+            // if (gridButtons != null){gridButtons.clear();}
             listaJugadas.clearList();
             jugadasDeshechas.clearList();
             
@@ -984,7 +983,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                 reloj = "Timer";
                 lblReloj.setText("Timer: ");
             }
-            //resetTablero(dificultad, indiceActual);
+            resetTablero(dificultad,sizeTablero,indiceActual );
             startReloj();
             
         }
