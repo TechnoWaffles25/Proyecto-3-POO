@@ -4,10 +4,13 @@ import java.io.*;
 import java.time.LocalTime;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JOptionPane;
 import proyecto_2_kenken.Data;
+import proyecto_2_kenken.observador.*;
 
 /**
  * clae que contiene la interfaz gráfica de la configuración de juego
@@ -35,7 +38,8 @@ public class MenuConfiguracion extends javax.swing.JFrame {
         btnPausar.setOpaque(true);
         btnPausar.setBorderPainted(false);
     }
-
+    public SujetoConcreto sujeto= new SujetoConcreto();
+    public ObservadorConcreto obs1=new ObservadorConcreto("Observador 1");
     public String dificultad;
     public String reloj;
     public boolean lado;
@@ -629,14 +633,15 @@ public class MenuConfiguracion extends javax.swing.JFrame {
             lado = false;
         }
         sonido = (boolean) toggleSonido.isSelected();
-        
-        Data config = new Data(dificultad.toLowerCase(), reloj, lado, sonido, tiempoJuego, sizeTablero);
+        sujeto.agregarObservador(obs1);
+        obs1.actualizar(dificultad, reloj, lado, sonido, tiempoJuego, sizeTablero);
+        /*Data config = new Data(dificultad.toLowerCase(), reloj, lado, sonido, tiempoJuego, sizeTablero);
             try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("config.dat"))) {
                 oos.writeObject(config); // Escribimos la configuracion cada vez q salimos
                 System.out.println("Dificultad: " + dificultad + "\nReloj: " + reloj + "\nLado Panel: " + sonido + "\nSonido: " + sonido + "\nTiempo Juego: " + tiempoJuego + "\nSize Tablero: " + sizeTablero);
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
             setVisible(false);
     }//GEN-LAST:event_btnSalirActionPerformed
 /**
