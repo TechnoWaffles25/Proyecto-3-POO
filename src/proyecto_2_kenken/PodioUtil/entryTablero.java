@@ -4,11 +4,13 @@
  */
 package proyecto_2_kenken.PodioUtil;
 
+import java.io.Serializable;
+
 /**
  *
  * @author amontero
  */
-public class entryTablero {
+public class entryTablero implements Serializable{
     private int tableroPos;
     private String size;
     private entryClass oro;

@@ -4,18 +4,23 @@
  */
 package proyecto_2_kenken.PodioUtil;
 
+import java.io.Serializable;
 import java.time.Duration;
 
 /**
  *
  * @author amontero
  */
-public class entryClass {
+public class entryClass implements Serializable{
     // atributos
     private String position;
     private String playerName;
     private Duration time;
     
+    public entryClass(String pName, Duration pTime){
+        playerName = pName;
+        time = pTime;
+    }
     // setters getters
     void setPosition(String pPosition){
         position = pPosition;

@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import proyecto_2_kenken.*;
 import proyecto_2_kenken.classes.*;
+import proyecto_2_kenken.PodioUtil.*;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -24,7 +25,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -39,9 +42,10 @@ public class VentanaJugar extends javax.swing.JFrame {
     public Lists jugadasDeshechas = new Lists();
     
     public List<Integer> indicesVisitados = new ArrayList<>();
-    public List<Cell> lstCells = new ArrayList<>();
     public List<List<JButton>> gridButtons = new ArrayList<List<JButton>>();
+    public List<Cell> lstCells = new ArrayList<>();
     public List<Partida> listPartidas;
+    public ButtonGroup btnGroupNumPad;
     public int valornuevo;
     
     public String jugador;
@@ -51,8 +55,8 @@ public class VentanaJugar extends javax.swing.JFrame {
     public boolean posicion;
     public boolean sonido;
     public String reloj;
+    public PodiumController podiumController = new PodiumController();
     
-    public ButtonGroup btnGroupNumPad;
     public Duration tiempoJuego;
     public Duration tiempoTranscurrido;
     public Timer timer = new Timer(true);
@@ -104,7 +108,7 @@ public class VentanaJugar extends javax.swing.JFrame {
         if (tiempoJuego == null){
             tiempoJuego = Duration.ofHours(0).plusMinutes(0).plusSeconds(0);
         }
-        
+                
         btnTerminar.setOpaque(true);
         btnTerminar.setBorderPainted(false);
         
@@ -476,6 +480,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                 public void run() {
                     Instant now = Instant.now();
                     tiempoTranscurrido = Duration.between(tiempoInicio, now);
+                    System.out.println("Tiempo Transcurrido: "+ tiempoTranscurrido);
                     updateTimerLabel();
                 }
             }, 0, 1000);
@@ -490,7 +495,7 @@ public class VentanaJugar extends javax.swing.JFrame {
             tiempoTranscurrido = Duration.ofHours(pHoras).plusMinutes(pMinutos).plusSeconds(pSegundos);
             Instant tiempoInicio = Instant.now().plus(tiempoTranscurrido);
             if (timer == null) {
-            timer = new Timer(true);
+                timer = new Timer(true);
             } else {
                 // If the timer was previously canceled, create a new instance
                 timer = new Timer(true);
@@ -499,6 +504,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                 public void run() {
                     Instant now = Instant.now();
                     tiempoTranscurrido = Duration.between(now, tiempoInicio);
+                    System.out.println("Tiempo Transcurrido: "+ tiempoTranscurrido);
                     updateTimerLabel();
 
                     if (tiempoTranscurrido.isNegative() || tiempoTranscurrido.isZero()) {
@@ -1011,6 +1017,7 @@ public class VentanaJugar extends javax.swing.JFrame {
                 return;
             }
         }
+        
         stopTimerLabel();
         if (sonido){
             SoundPlayer victorySound = new SoundPlayer();
@@ -1018,15 +1025,27 @@ public class VentanaJugar extends javax.swing.JFrame {
             System.out.println("Reproduciendo win.wav");
         }
         // Logica para ver si el juego clasifica en algun podio
+        
+        // Logica para ver si el juego clasifica en algun podio
         if (!"No Usar".equals(reloj)){
+            Duration timePodio = null;
             switch (reloj){
                 case "Cronometro":
-                    System.out.println("Cronometro");
+                    timePodio = tiempoTranscurrido;
+                    break; // Asegúrate de incluir este break
                 case "Timer":
-                    System.out.println("Timer");
+                    timePodio = tiempoJuego.minus(tiempoTranscurrido);
+                    break; // Y este también
             }
+
+            if (timePodio != null) {
+                String pSize = Integer.toString(sizeTablero); // Debes obtener el tamaño del tablero actual
+
+                podiumController.updatePodium(dificultad, pSize, jugador, timePodio);
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Este juego no uso timer ni cronometro, por lo que no clasifica en el podio");
         }
-        
         JOptionPane.showMessageDialog(rootPane, "Has completado el tablero!");
         setVisible(false);
     }//GEN-LAST:event_btnValidarActionPerformed
@@ -1046,7 +1065,13 @@ public class VentanaJugar extends javax.swing.JFrame {
     }//GEN-LAST:event_txtJugadorActionPerformed
 
     private void btnPodioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPodioActionPerformed
-        // TODO add your handling code here:
+        if (Desktop.isDesktopSupported()) {
+            try {
+                File myFile = new File("podio_kenken.pdf");
+                Desktop.getDesktop().open(myFile);
+            } catch (IOException ex) {
+                System.out.println("error al abrir el manual");}
+        }
     }//GEN-LAST:event_btnPodioActionPerformed
     
     /**

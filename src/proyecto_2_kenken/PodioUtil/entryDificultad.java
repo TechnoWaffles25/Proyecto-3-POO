@@ -4,6 +4,7 @@
  */
 package proyecto_2_kenken.PodioUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,15 +13,22 @@ import java.util.Comparator;
  *
  * @author amontero
  */
-public class entryDificultad {
+public class entryDificultad implements Serializable{
     private String dificultad;
     private ArrayList<entryTablero> tableros;
     
-    void setDificultad(String pDificultad){
+    
+    public void setDificultad(String pDificultad){
        dificultad = pDificultad;
     }
-    void setTableros(ArrayList<entryTablero> pTableros){
+    public void setTableros(ArrayList<entryTablero> pTableros){
         tableros = pTableros;
+    }
+    public ArrayList<entryTablero> getTableros(){
+        return tableros;
+    }
+    public String getDificultad(){
+        return dificultad;
     }
     
     private static void sortTableros(ArrayList<entryTablero> tableros) {
