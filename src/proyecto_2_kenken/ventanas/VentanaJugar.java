@@ -967,7 +967,7 @@ public class VentanaJugar extends javax.swing.JFrame {
             }
             cargarTablero();
             startReloj();
-            
+        btnIniciar.setEnabled(false);  
         }
     }//GEN-LAST:event_btnOtraPartidaActionPerformed
 /**
@@ -991,7 +991,7 @@ public class VentanaJugar extends javax.swing.JFrame {
             }
             resetTablero(dificultad,sizeTablero,indiceActual );
             startReloj();
-            
+         btnIniciar.setEnabled(false);   
         }
     }//GEN-LAST:event_btnReiniciarActionPerformed
 /**
