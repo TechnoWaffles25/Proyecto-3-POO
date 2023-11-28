@@ -42,8 +42,7 @@ public class entryDificultad implements Serializable{
                 try {
                     return Integer.parseInt(size.split("x")[0]);
                 } catch (NumberFormatException e) {
-                    // Handle the exception if the size is not in the expected format
-                    return Integer.MAX_VALUE; // You can return a default value or handle it as per your logic
+                    return Integer.MAX_VALUE;
                 }
             }
         });
